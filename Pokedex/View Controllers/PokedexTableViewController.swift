@@ -10,7 +10,7 @@ import UIKit
 
 class PokedexTableViewController: UITableViewController {
 	
-	var pokemon = [Result]()
+	var pokemon = [Pokemon]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class PokedexTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 	
-	func updateUI(with pokemon: [Result]){
+	func updateUI(with pokemon: [Pokemon]){
 		DispatchQueue.main.async {
 			self.pokemon = pokemon
 			self.tableView.reloadData()

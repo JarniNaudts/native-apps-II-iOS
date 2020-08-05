@@ -13,7 +13,7 @@ class PokedexController {
 	
 	let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
 	
-	func fetchPokedex(completion: @escaping ([Result]?) -> Void){
+	func fetchPokedex(completion: @escaping ([Pokemon]?) -> Void){
 		let initialPokedexURL = baseURL.appendingPathComponent("pokemon")
 		var components = URLComponents(url: initialPokedexURL, resolvingAgainstBaseURL: true)!
 		components.queryItems = [URLQueryItem(name: "limit", value: "964"), URLQueryItem(name: "offset", value: "0")]
@@ -24,7 +24,7 @@ class PokedexController {
 			let jsonDecoder = JSONDecoder()
 			if let data = data,
 				let pokedex = try? jsonDecoder.decode(Pokedex.self, from: data){
-				completion(pokedex.results)
+				completion(pokedex.pokemon)
 			}else{
 				completion(nil)
 			}
