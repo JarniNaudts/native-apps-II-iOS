@@ -54,10 +54,18 @@ class PokedexTableViewController: UITableViewController {
 			fatalError("Could not dequeue a cell")
 		}
 
-		cell.pokeLabel?.text = pokemon[indexPath.row].name
+		cell.pokeLabel?.text = String(format: "#%03d - %@", indexPath.row+1, pokemon[indexPath.row].name)
 
         return cell
     }
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "PokemonDetailIdentifier"{
+			let pokemonDetailTableViewController = segue.destination as! PokemonDetailTableViewController
+			let index = tableView.indexPathForSelectedRow!.row
+			pokemonDetailTableViewController.pokemon = pokemon[index]
+		}
+	}
 
 
     /*

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PokedexController {
 	static let shared = PokedexController()
@@ -26,6 +27,33 @@ class PokedexController {
 				let pokedex = try? jsonDecoder.decode(Pokedex.self, from: data){
 				completion(pokedex.pokemon)
 			}else{
+				completion(nil)
+			}
+		}
+		task.resume()
+	}
+	
+	func fetchPokemonDetails(forPokemon pokemonName: String, completion: @escaping (Pokemon?) -> Void){
+		let pokemonURL = baseURL.appendingPathComponent("pokemon/\(pokemonName)")
+		
+		let task = URLSession.shared.dataTask(with: pokemonURL){
+			(data, response, error) in
+			let jsonDecoder = JSONDecoder()
+			if let data = data, let pokemon = try? jsonDecoder.decode(Pokemon.self, from: data){
+				completion(pokemon)
+			}else{
+				completion(nil)
+			}
+		}
+		task.resume()
+	}
+	
+	func fetchImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+			if let data = data,
+				let image = UIImage(data: data) {
+				completion(image)
+			} else {
 				completion(nil)
 			}
 		}

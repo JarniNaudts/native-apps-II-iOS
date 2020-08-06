@@ -15,6 +15,7 @@
 		4B9F81BB24DB493C008A7AD6 /* PokedexTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F81BA24DB493C008A7AD6 /* PokedexTableViewCell.swift */; };
 		4B9F81BD24DB4E68008A7AD6 /* Pokedex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F81BC24DB4E68008A7AD6 /* Pokedex.swift */; };
 		4B9F81BF24DB542F008A7AD6 /* PokedexController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F81BE24DB542F008A7AD6 /* PokedexController.swift */; };
+		4B9F81C124DC1BE2008A7AD6 /* PokemonDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9F81C024DC1BE2008A7AD6 /* PokemonDetailTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		4B9F81BA24DB493C008A7AD6 /* PokedexTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexTableViewCell.swift; sourceTree = "<group>"; };
 		4B9F81BC24DB4E68008A7AD6 /* Pokedex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokedex.swift; sourceTree = "<group>"; };
 		4B9F81BE24DB542F008A7AD6 /* PokedexController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexController.swift; sourceTree = "<group>"; };
+		4B9F81C024DC1BE2008A7AD6 /* PokemonDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				4B9F81B724DB4637008A7AD6 /* PokedexTableViewController.swift */,
+				4B9F81C024DC1BE2008A7AD6 /* PokemonDetailTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B9F81C124DC1BE2008A7AD6 /* PokemonDetailTableViewController.swift in Sources */,
 				4B9F81BB24DB493C008A7AD6 /* PokedexTableViewCell.swift in Sources */,
 				4B9F81BF24DB542F008A7AD6 /* PokedexController.swift in Sources */,
 				4B9F81BD24DB4E68008A7AD6 /* Pokedex.swift in Sources */,
