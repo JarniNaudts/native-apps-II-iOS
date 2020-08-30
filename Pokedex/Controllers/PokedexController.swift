@@ -12,6 +12,20 @@ import UIKit
 class PokedexController {
 	static let shared = PokedexController()
 	
+	static let partyUpdateNotification = Notification.Name("PokedexController.partyUpdated")
+	
+	var party = [Pokemon](){
+		didSet{
+			NotificationCenter.default.post(name: PokedexController.partyUpdateNotification, object: nil)
+		}
+	}
+	
+	init(){
+		if let partyFromStorage = Pokemon.loadPokemonInParty(){
+			party = partyFromStorage
+		}
+	}
+	
 	let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
 	
 	func fetchPokedex(completion: @escaping ([Pokemon]?) -> Void){
@@ -58,5 +72,15 @@ class PokedexController {
 			}
 		}
 		task.resume()
+	}
+	
+	func addPokemonToParty(pokemon: Pokemon){
+		party.append(pokemon)
+		Pokemon.savePokemonInParty(party)
+	}
+	
+	func removePokemonFromParty(index: Int){
+		party.remove(at: index)
+		Pokemon.savePokemonInParty(party)
 	}
 }

@@ -13,7 +13,6 @@ class PokemonDetailTableViewController: UITableViewController {
 	@IBOutlet var typeLabel1: UILabel!
 	@IBOutlet var typeLabel2: UILabel!
 	
-	
 	@IBOutlet var heightLabel: UILabel!
 	@IBOutlet var weightLabel: UILabel!
 	
@@ -53,6 +52,8 @@ class PokemonDetailTableViewController: UITableViewController {
 	@IBOutlet var speedLabel: UILabel!
 	@IBOutlet var speedProgressView: UIProgressView!
 	
+	@IBOutlet var addToPartyButton: UIButton!
+	
 	let defaultSpriteIndexPath = IndexPath(row: 0, section: 1)
 	let femaleSpriteIndexPath = IndexPath(row: 1, section: 1)
 	let shinySpriteIndexPath = IndexPath(row: 2, section: 1)
@@ -83,11 +84,17 @@ class PokemonDetailTableViewController: UITableViewController {
 	var isGenderDifference = false
 	
 	var pokemon: Pokemon!
+	var pokemonInParty = [Pokemon]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		title = pokemon.name
+		
+		if let savedPokemon = Pokemon.loadPokemonInParty(){
+			pokemonInParty = savedPokemon
+		}
+		
 		PokedexController.shared.fetchPokemonDetails(forPokemon: pokemon.name){
 			(pokemon) in
 			if let pokemon = pokemon{
@@ -116,6 +123,7 @@ class PokemonDetailTableViewController: UITableViewController {
 			self.updateFemaleSprites()
 			self.updateShinySprites()
 			self.updateShinyFemaleSpites()
+			self.updateAddToPartyButton()
 		}
 	}
 	
@@ -341,6 +349,19 @@ class PokemonDetailTableViewController: UITableViewController {
 		}
 	}
 	
+	func updateAddToPartyButton(){
+		if pokemonInParty.contains(where: {p in p.name == pokemon.name}){
+			addToPartyButton.isEnabled = false
+			addToPartyButton.setTitle("Pokemon Already Added To Party", for: .disabled)
+		} else if(pokemonInParty.count >= 6){
+			addToPartyButton.isEnabled = false
+			addToPartyButton.setTitle("Party Is Full", for: .disabled)
+		} else{
+			addToPartyButton.isEnabled = true
+			addToPartyButton.setTitle("Add Pokemon To Party", for: .normal)
+		}
+	}
+	
 	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
 		switch indexPath {
 		case defaultSpriteIndexPath,
@@ -352,4 +373,13 @@ class PokemonDetailTableViewController: UITableViewController {
 			return normalCellHeight
 		}
 	}
+	
+	@IBAction func addPokemonToPartyButtonTouched(_ sender: UIButton) {
+		if pokemonInParty.count < 6 || !pokemonInParty.contains(where: {p in p.name == pokemon.name}){
+			PokedexController.shared.addPokemonToParty(pokemon: pokemon)
+			pokemonInParty.append(pokemon)
+		}
+		self.updateAddToPartyButton()
+	}
+	
 }

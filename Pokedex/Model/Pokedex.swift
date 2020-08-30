@@ -42,18 +42,33 @@ struct Pokemon: Codable {
 	let types: [TypeElement]?
 	let weight: Int?
 	
-	enum CodingKeys: String, CodingKey {
-		//case abilities
-		//case baseExperience = "base_experience"
-		//case forms
-		//case gameIndices = "game_indices"
-		case height
-		//case heldItems = "held_items"
-		case id
-		//case isDefault = "is_default"
-		//case locationAreaEncounters = "location_area_encounters"
-		case name, sprites, stats, types, weight
+	static let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+	static let archiveURL = documentsDirectory.appendingPathComponent("pokemon").appendingPathExtension("party")
+	
+	static func loadPokemonInParty() -> [Pokemon]?{
+		guard let codedPokemon = try? Data(contentsOf: archiveURL) else { return nil }
+		let propertyListDecoder = PropertyListDecoder()
+		return try? propertyListDecoder.decode(Array<Pokemon>.self, from: codedPokemon)
 	}
+	
+	static func savePokemonInParty(_ party: [Pokemon]){
+		let propertyListEncoder = PropertyListEncoder()
+		let codedPokemon = try? propertyListEncoder.encode(party)
+		try? codedPokemon?.write(to: archiveURL, options: .noFileProtection)
+	}
+	
+//	enum CodingKeys: String, CodingKey {
+//		//case abilities
+//		//case baseExperience = "base_experience"
+//		//case forms
+//		//case gameIndices = "game_indices"
+//		case height
+//		//case heldItems = "held_items"
+//		case id
+//		//case isDefault = "is_default"
+//		//case locationAreaEncounters = "location_area_encounters"
+//		case name, sprites, stats, types, weight
+//	}
 }
 
 struct Sprites: Codable {
