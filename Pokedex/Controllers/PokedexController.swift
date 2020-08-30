@@ -14,17 +14,14 @@ class PokedexController {
 	
 	static let partyUpdateNotification = Notification.Name("PokedexController.partyUpdated")
 	
-	var party = [Pokemon](){
-		didSet{
-			NotificationCenter.default.post(name: PokedexController.partyUpdateNotification, object: nil)
-		}
-	}
+//	var party = [Pokemon](){
+//		didSet{
+//			NotificationCenter.default.post(name: PokedexController.partyUpdateNotification, object: nil)
+//		}
+//	}
 	
-	init(){
-		if let partyFromStorage = Pokemon.loadPokemonInParty(){
-			party = partyFromStorage
-		}
-	}
+	static let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+	static let archiveURL = documentsDirectory.appendingPathComponent("pokemon").appendingPathExtension("party")
 	
 	let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
 	
@@ -74,13 +71,16 @@ class PokedexController {
 		task.resume()
 	}
 	
-	func addPokemonToParty(pokemon: Pokemon){
-		party.append(pokemon)
-		Pokemon.savePokemonInParty(party)
+	static func loadPokemonInParty() -> [Pokemon]?{
+		guard let codedPokemon = try? Data(contentsOf: archiveURL) else { return nil }
+		let propertyListDecoder = PropertyListDecoder()
+		return try? propertyListDecoder.decode(Array<Pokemon>.self, from: codedPokemon)
 	}
 	
-	func removePokemonFromParty(index: Int){
-		party.remove(at: index)
-		Pokemon.savePokemonInParty(party)
+	static func savePokemonInParty(_ party: [Pokemon]){
+		let propertyListEncoder = PropertyListEncoder()
+		let codedPokemon = try? propertyListEncoder.encode(party)
+		try? codedPokemon?.write(to: archiveURL, options: .noFileProtection)
+		NotificationCenter.default.post(name: PokedexController.partyUpdateNotification, object: nil)
 	}
 }

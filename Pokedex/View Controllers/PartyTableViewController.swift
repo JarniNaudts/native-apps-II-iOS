@@ -44,7 +44,9 @@ class PartyTableViewController: UITableViewController {
     }
 
 	@objc func updateUI(){
-		self.pokemonInParty = PokedexController.shared.party
+		if let partyFromStorage = PokedexController.loadPokemonInParty(){
+			self.pokemonInParty = partyFromStorage
+		}
 		DispatchQueue.main.async {
 			self.updatePartySlot1()
 			self.updatePartySlot2()
@@ -81,7 +83,7 @@ class PartyTableViewController: UITableViewController {
 	
 	func updatePartySlot2(){
 		if pokemonInParty.indices.contains(1){
-			partySlot1Label.text = pokemonInParty[1].name
+			partySlot2Label.text = pokemonInParty[1].name
 			if let spriteFront = pokemonInParty[1].sprites?.frontDefault, let spriteBack = pokemonInParty[1].sprites?.backDefault{
 				PokedexController.shared.fetchImage(url: spriteFront){
 					(image) in guard let image = image else {return}
@@ -105,7 +107,7 @@ class PartyTableViewController: UITableViewController {
 	
 	func updatePartySlot3(){
 		if pokemonInParty.indices.contains(2){
-			partySlot1Label.text = pokemonInParty[2].name
+			partySlot3Label.text = pokemonInParty[2].name
 			if let spriteFront = pokemonInParty[2].sprites?.frontDefault, let spriteBack = pokemonInParty[2].sprites?.backDefault{
 				PokedexController.shared.fetchImage(url: spriteFront){
 					(image) in guard let image = image else {return}
@@ -129,7 +131,7 @@ class PartyTableViewController: UITableViewController {
 	
 	func updatePartySlot4(){
 		if pokemonInParty.indices.contains(3){
-			partySlot1Label.text = pokemonInParty[3].name
+			partySlot4Label.text = pokemonInParty[3].name
 			if let spriteFront = pokemonInParty[3].sprites?.frontDefault, let spriteBack = pokemonInParty[3].sprites?.backDefault{
 				PokedexController.shared.fetchImage(url: spriteFront){
 					(image) in guard let image = image else {return}
@@ -153,7 +155,7 @@ class PartyTableViewController: UITableViewController {
 	
 	func updatePartySlot5(){
 		if pokemonInParty.indices.contains(4){
-			partySlot1Label.text = pokemonInParty[4].name
+			partySlot5Label.text = pokemonInParty[4].name
 			if let spriteFront = pokemonInParty[4].sprites?.frontDefault, let spriteBack = pokemonInParty[4].sprites?.backDefault{
 				PokedexController.shared.fetchImage(url: spriteFront){
 					(image) in guard let image = image else {return}
@@ -177,7 +179,7 @@ class PartyTableViewController: UITableViewController {
 	
 	func updatePartySlot6(){
 		if pokemonInParty.indices.contains(5){
-			partySlot1Label.text = pokemonInParty[5].name
+			partySlot6Label.text = pokemonInParty[5].name
 			if let spriteFront = pokemonInParty[5].sprites?.frontDefault, let spriteBack = pokemonInParty[5].sprites?.backDefault{
 				PokedexController.shared.fetchImage(url: spriteFront){
 					(image) in guard let image = image else {return}
@@ -205,7 +207,8 @@ class PartyTableViewController: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			PokedexController.shared.removePokemonFromParty(index: indexPath.row)
+			pokemonInParty.remove(at: indexPath.row)
+			PokedexController.savePokemonInParty(pokemonInParty)
 		}
 	}
 }

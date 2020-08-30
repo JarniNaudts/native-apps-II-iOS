@@ -91,7 +91,7 @@ class PokemonDetailTableViewController: UITableViewController {
 		
 		title = pokemon.name
 		
-		if let savedPokemon = Pokemon.loadPokemonInParty(){
+		if let savedPokemon = PokedexController.loadPokemonInParty(){
 			pokemonInParty = savedPokemon
 		}
 		
@@ -101,12 +101,6 @@ class PokemonDetailTableViewController: UITableViewController {
 				self.updateUI(with: pokemon)
 			}
 		}
-		
-		// Uncomment the following line to preserve selection between presentations
-		// self.clearsSelectionOnViewWillAppear = false
-		
-		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-		// self.navigationItem.rightBarButtonItem = self.editButtonItem
 	}
 	
 	func updateUI(with pokemon: Pokemon){
@@ -376,10 +370,9 @@ class PokemonDetailTableViewController: UITableViewController {
 	
 	@IBAction func addPokemonToPartyButtonTouched(_ sender: UIButton) {
 		if pokemonInParty.count < 6 || !pokemonInParty.contains(where: {p in p.name == pokemon.name}){
-			PokedexController.shared.addPokemonToParty(pokemon: pokemon)
 			pokemonInParty.append(pokemon)
+			PokedexController.savePokemonInParty(pokemonInParty)
 		}
 		self.updateAddToPartyButton()
 	}
-	
 }
