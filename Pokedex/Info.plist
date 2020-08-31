@@ -24,6 +24,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Monitoring location for evil purposes, jk location does not get shared with anyone</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Monitoring when you leave Pallet Town</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
